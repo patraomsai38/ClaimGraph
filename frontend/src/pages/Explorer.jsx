@@ -164,22 +164,37 @@ export default function Explorer({ graphData, currentDataset, onLoadDataset, onU
             highlightedEdges={highlightedEdges}
           />
           {/* Legend */}
-          <div className="absolute left-3 bottom-3 glass rounded-xl p-3 text-[11px] space-y-2 max-w-[200px]">
+          <div className="absolute left-3 bottom-3 glass rounded-xl p-3 text-[10px] space-y-3 max-w-[180px]">
             <div>
-              <p className="text-[9px] uppercase tracking-wider text-gray-500 font-semibold mb-1">Edges</p>
-              <div className="flex flex-col gap-1">
-                <span className="flex items-center gap-2"><span className="w-4 h-[2px] bg-gray-400 rounded" /> depends_on</span>
-                <span className="flex items-center gap-2"><span className="w-4 h-[2px] bg-good rounded border-dashed" /> supports</span>
-                <span className="flex items-center gap-2"><span className="w-4 h-[2px] bg-bad rounded" /> contradicts</span>
+              <p className="text-[9px] uppercase tracking-wider text-gray-500 font-semibold mb-1.5">Edges</p>
+              <div className="flex flex-col gap-1.5 text-gray-400">
+                <span className="flex items-center gap-2">
+                  <span className="w-5 h-[1.5px] bg-slate-500 rounded" />
+                  <span>depends on</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-5 h-[1.5px] bg-good/60 rounded" style={{ borderTop: '1.5px dashed #4ade80' }} />
+                  <span>supports</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-5 h-[1.5px] bg-bad/60 rounded" style={{ borderTop: '1.5px dashed #f87171' }} />
+                  <span>contradicts</span>
+                </span>
               </div>
             </div>
             <div>
-              <p className="text-[9px] uppercase tracking-wider text-gray-500 font-semibold mb-1">Confidence</p>
-              <div className="h-2 rounded-full bg-gradient-to-r from-[#b91c1c] via-[#facc15] to-[#15803d]" />
-              <div className="flex justify-between text-[9px] text-gray-500 mt-0.5">
-                <span>-1</span><span>0</span><span>+1</span>
+              <p className="text-[9px] uppercase tracking-wider text-gray-500 font-semibold mb-1.5">Node border</p>
+              <div className="flex items-center gap-2">
+                <div className="flex gap-0.5">
+                  <span className="w-3 h-3 rounded border-2 border-red-500 bg-slate-800" />
+                  <span className="w-3 h-3 rounded border-2 border-orange-500 bg-slate-800" />
+                  <span className="w-3 h-3 rounded border-2 border-yellow-500 bg-slate-800" />
+                  <span className="w-3 h-3 rounded border-2 border-emerald-500 bg-slate-800" />
+                </div>
+                <span className="text-gray-500">-1 → +1</span>
               </div>
             </div>
+            <p className="text-[9px] text-gray-600 leading-snug">Click a node to inspect</p>
           </div>
         </div>
 

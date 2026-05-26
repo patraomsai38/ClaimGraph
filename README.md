@@ -3,6 +3,8 @@
 > Knowledge is not a list of facts. Knowledge is a network of claims
 > supported or challenged by evidence.
 
+**Live site:** [https://dist-liraozho.devinapps.com](https://dist-liraozho.devinapps.com)
+
 ClaimGraph is a small system that treats knowledge as a **DAG of claims and
 evidence** and computes a confidence score for every claim by propagating
 evidence along the DAG **in topological order**.
@@ -21,7 +23,14 @@ The interesting part of the project is the **DAG engine** (the "DAA core"):
 See [`docs/ALGORITHMS.md`](docs/ALGORITHMS.md) for the full DAA write-up
 with pseudocode and complexities.
 
-## Demo
+## Live Demo
+
+The interactive frontend is deployed at
+**[https://dist-liraozho.devinapps.com](https://dist-liraozho.devinapps.com)** —
+no installation required. It runs entirely in the browser with all
+graph algorithms reimplemented in JavaScript.
+
+## Local Development (Flask backend)
 
 ```bash
 pip install -r requirements.txt
@@ -64,6 +73,12 @@ ClaimGraph/
     storage.py               # JSON load / save for whole graphs
     api.py                   # Flask blueprint + JSON HTTP layer
   static/                    # index.html + style.css + app.js (Cytoscape.js UI)
+  frontend/                  # Modern React frontend (Vite + Tailwind + Cytoscape.js)
+    src/
+      engine/graph.js        # Client-side graph algorithms (JS reimplementation)
+      components/            # React components (GraphView, ClaimPanel, AddForms, Navbar)
+      pages/                 # Landing, Explorer, Algorithms pages
+      data/datasets.js       # Bundled sample datasets
   data/                      # sample graphs (one JSON file each)
   tests/                     # pytest suites (models / graph / algorithms / storage / api)
   docs/ALGORITHMS.md         # DAA write-up: pseudocode + complexities
@@ -139,6 +154,57 @@ The suite covers:
 - JSON storage round-trips on the shipped sample datasets,
 - the Flask API (graph endpoint, cycle rejection with `409`, reasoning
   paths, dataset loader).
+
+## Deploying the Frontend
+
+The modern React frontend lives in `frontend/` and can be deployed as a
+static site to any hosting provider.
+
+### Prerequisites
+
+- Node.js 18+ and npm
+
+### Build
+
+```bash
+cd frontend
+npm install
+npm run build
+```
+
+This produces a `frontend/dist/` directory with static assets.
+
+### Deploy to any static host
+
+Upload the contents of `frontend/dist/` to any static hosting service:
+
+| Provider       | Command / Steps                                                        |
+|----------------|------------------------------------------------------------------------|
+| **Vercel**     | `npx vercel --prod` from `frontend/`                                   |
+| **Netlify**    | Drag-and-drop `frontend/dist/` or `netlify deploy --prod --dir dist`   |
+| **GitHub Pages** | Push `frontend/dist/` contents to a `gh-pages` branch               |
+| **Cloudflare Pages** | Connect repo, set build command `cd frontend && npm run build`, output dir `frontend/dist` |
+| **AWS S3**     | `aws s3 sync frontend/dist/ s3://your-bucket --acl public-read`        |
+
+The frontend is fully standalone — no backend server is needed. All graph
+algorithms run client-side in the browser.
+
+### Local preview
+
+```bash
+cd frontend
+npm run preview
+# opens at http://localhost:4173
+```
+
+### Development server (with hot reload)
+
+```bash
+cd frontend
+npm run dev
+# opens at http://localhost:5173
+# API requests proxy to Flask on http://localhost:5000 (if running)
+```
 
 ## License
 
